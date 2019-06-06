@@ -181,14 +181,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let rateAction = UITableViewRowAction(style: .destructive, title: "Delete" , handler: { (action: UITableViewRowAction, indexPath:IndexPath) -> Void in
 
             var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: self.userKey.key) as? [[String]] ?? [["empty"]]
+            index.reverse()
             index.remove(at: indexPath.row)
-            if self.flag {
-                self.notes.remove(at: indexPath.row)
-            } else {
-                self.notes.reverse()
-                self.notes.remove(at: indexPath.row)
-                self.notes.reverse()
-            }
+            index.reverse()
+                
+            self.notes.remove(at: indexPath.row)
             
             var arrayEl = [[String]]()
             
