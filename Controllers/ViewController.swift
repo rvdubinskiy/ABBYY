@@ -29,6 +29,12 @@ class ViewController: UIViewController {
         return table
     }()
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        refreshing()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

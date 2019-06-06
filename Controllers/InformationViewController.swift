@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InformationViewController: UIViewController, UITextFieldDelegate {
+class InformationViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     private var notes: Note?
     var flag: Bool = false
     var taskInfo = TaskInfo()
@@ -21,6 +21,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         
         indexOfCurrentElement = Int(index)!
         self.notes = parameters
+    
         
         
         setupNavigationItems()
@@ -46,14 +47,34 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         taskInfo.createButton.isHidden = true
         taskInfo.comment.isEditable = false
         
+        taskInfo.nameOfTask.delegate = self
+        taskInfo.comment.delegate = self
     }
     
-    // button which changed status after click on it
+    // button "Done" which changed status after click on it
     @objc func finishTask() {
-        var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
         
-        index![indexOfCurrentElement][4] = "2"
-        UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: userKey.key)
+        let alertController = UIAlertController(title: "Attention", message: "Are you really want to finish completing task?", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Ok", style: .default) { (UIAlertAction) in
+            var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: self.userKey.key) as? [[String]]
+            
+            index![self.indexOfCurrentElement][4] = "2"
+            UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: self.userKey.key)
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
+            UIAlertAction in
+            NSLog("Cancel Pressed")
+        }
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
+
     }
     
     // navigation button "Edit" for editing task
@@ -117,7 +138,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         taskInfo.comment.topAnchor.constraint(equalTo: self.taskInfo.nameOfTask.bottomAnchor).isActive = true
         taskInfo.comment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
         taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
-        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/4).isActive = true
+        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/5).isActive = true
         
         //setup button - create task
         taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
@@ -137,6 +158,29 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         taskInfo.comment.resignFirstResponder()
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = taskInfo.nameOfTask.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return updatedText.count <= 30
+    }
+    
+    // restrictions
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = taskInfo.comment.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        
+        return changedText.count <= 500
+    }
+    func textViewShouldReturn(textView: UITextView!) -> Bool {
+        self.view.endEditing(true);
+        return true;
     }
     
 }

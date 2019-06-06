@@ -110,6 +110,7 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         self.view.addSubview(taskInfo.comment)
         self.view.addSubview(taskInfo.createButton)
         taskInfo.nameOfTask.delegate = self
+        taskInfo.comment.delegate = self
         
         setupConstraints()
     }
@@ -134,7 +135,7 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         taskInfo.comment.topAnchor.constraint(equalTo: self.taskInfo.nameOfTask.bottomAnchor).isActive = true
         taskInfo.comment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
         taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
-        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/4).isActive = true
+        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/5).isActive = true
         
         //setup button - create task
         taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
@@ -142,5 +143,27 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         taskInfo.createButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         taskInfo.createButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
     }
-
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = taskInfo.nameOfTask.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return updatedText.count <= 25
+    }
+    
+    // restrictions
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = taskInfo.comment.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        
+        return changedText.count <= 500
+    }
+    func textViewShouldReturn(textView: UITextView!) -> Bool {
+        self.view.endEditing(true);
+        return true;
+    }
 }

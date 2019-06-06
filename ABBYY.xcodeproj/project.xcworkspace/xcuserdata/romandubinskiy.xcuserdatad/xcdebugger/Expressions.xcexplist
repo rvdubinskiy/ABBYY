@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "AppDelegate.application(_:open:options:):AppDelegate.swift">
+      </ContextState>
+      <ContextState
+         contextName = "InformationViewController.changeDates():InformationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexOfCurrentElement">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "InformationViewController.__allocating_init(with:index:):InformationViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.tableView(_:editActionsForRowAt:):ViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

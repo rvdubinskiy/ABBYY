@@ -78,52 +78,79 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var dates = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: "def1") as! [[String]] ?? [[""]]
         dates.reverse()
 
-        
+        // тут сортировка для отображения ближайшей задачи, у которой не стоит статус "done"
         for item in 0..<dates.count {
+            // тут я сравниваю по дням + статус
             if dates[item][5] >= tempString && dates[item][4] == "0"{
+                // тут сравниваю по времени(часы, минуты и секунды), чтобы получить свежий невыолненный таск
                 if dates[item][2] > timeForCompare {
-                    var notes = [String]()
                     tempString = dates[item][5]
                     timeForCompare = dates[item][2]
-                    notes.append(dates[item][0])
-                    notes.append(dates[item][1])
-                    notes.append(dates[item][3])
-                    notes.append(GetStatusFromInt(intStatus: dates[item][4]))
-                    notes.append(timeForCompare)
-                    notes.append(tempString)
-                    note = notes
+                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates, item: item)
                 }
             } else if dates[item][5] >= tempString && dates[item][4] == "1" {
-                var notes = [String]()
-                tempString = dates[item][5]
-                notes.append(dates[item][0])
-                notes.append(dates[item][1])
-                notes.append(dates[item][3])
-                notes.append(GetStatusFromInt(intStatus: dates[item][4]))
-                notes.append(dates[item][2])
-                notes.append(tempString)
-                note = notes
+                // тут аналогично, но для другого статуса.
+                if dates[item][2] > timeForCompare {
+                    tempString = dates[item][5]
+                    timeForCompare = dates[item][2]
+                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates, item: item)
+                }
             } else {
-                note.append("")
+                note.append("1")
+                note.append("Надеюсь")
+                note.append("сейчас")
+                note.append("все")
+                note.append("окей")
+                note.append("1")
             }
         }
         
+        
         if dates.count != 0 {
-            nameOfTaskLabel.label.text = note[1]
+            
             if currentDateString > note[5] && note[3] == "new"{
+                nameOfTaskLabel.label.text = note[1]
                 time.label.text = currentDateString
+                commentsLabel.label.text = note[4]
+                status.label.text = note[3]
             } else if currentDateString > note[5] && note[3] == "in the process" {
+                nameOfTaskLabel.label.text = note[1]
                 time.label.text = currentDateString
+                commentsLabel.label.text = note[4]
+                status.label.text = note[3]
             } else if currentDateString == note[5] && (note[3] == "new" || note[3] == "in the process") {
+                nameOfTaskLabel.label.text = note[1]
                 time.label.text = note[2]
+                commentsLabel.label.text = note[4]
+                status.label.text = note[3]
+            } else {
+                nameOfTaskLabel.label.text = "dude"
+                time.label.text = "trust"
+                commentsLabel.label.text = "no"
+                status.label.text = "one!"
             }
-            commentsLabel.label.text = note[4]
-            status.label.text = note[3]
+        } else {
+            nameOfTaskLabel.label.text = "dude"
+            time.label.text = "trust"
+            commentsLabel.label.text = "no"
+            status.label.text = "one"
         }
         
         
         UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(note, forKey: "widjetDate")
         
+    }
+    
+    // тут считаю максимально подходящую
+    func SetParameters(tempString: String, timeForCompare: String, dates: [[String]],  item: Int) -> [String] {
+        var notes = [String]()
+        notes.append(dates[item][0])
+        notes.append(dates[item][1])
+        notes.append(dates[item][3])
+        notes.append(GetStatusFromInt(intStatus: dates[item][4]))
+        notes.append(timeForCompare)
+        notes.append(tempString)
+        return notes
     }
     
     // get status from string format as int
