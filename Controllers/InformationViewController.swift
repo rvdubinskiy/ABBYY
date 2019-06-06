@@ -48,6 +48,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // button which changed status after click on it
     @objc func finishTask() {
         var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
         
@@ -55,6 +56,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: userKey.key)
     }
     
+    // navigation button "Edit" for editing task
     @objc func beginEditing() {
         taskInfo.nameOfTask.textColor = UIColor.black
         taskInfo.comment.textColor = UIColor.black
@@ -64,6 +66,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         buttonSettings()
     }
     
+    // save button settings
     func buttonSettings() {
         let button = taskInfo.createButton
         button.isHidden = false
@@ -74,6 +77,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // save all dates after editing
     @objc func changeDates() {
     
         var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
@@ -88,6 +92,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate {
         navigationController?.popToRootViewController(animated: true)
     }
     
+    // set up all dated
     func setupDates() {
         taskInfo.nameOfTask.text = notes?.nameOfTask
         taskInfo.comment.text = notes?.comments

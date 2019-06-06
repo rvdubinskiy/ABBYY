@@ -16,16 +16,20 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        title = "Create"
-        navigationController?.navigationBar.prefersLargeTitles = true
-
-        self.view.backgroundColor = UIColor.white
-        
+        mainSettingsOfWindow()
         taskInfo.createButton.addTarget(self, action: #selector(createNewTask), for: .touchUpInside)
         setupCreateView()
-    } 
+    }
     
+    func mainSettingsOfWindow() {
+        
+        title = "Create"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        self.view.backgroundColor = UIColor.white
+    }
+    
+    // action after click on Create task button
     @objc func createNewTask() {
         let date = Date()
         let time = GetTimeString(date: date)
@@ -71,6 +75,7 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         navigationController?.popViewController(animated: true)
     }
     
+    // get string with hours, minutes and seconds
     func GetTimeString(date: Date) -> String {
         let calendar = Calendar.current
         var hour = String()
@@ -98,6 +103,8 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         let time = "\(hour):\(minutes):\(seconds)"
         return time
     }
+    
+    // set up main view and also subviews
     func setupCreateView() {
         self.view.addSubview(taskInfo.nameOfTask)
         self.view.addSubview(taskInfo.comment)
@@ -117,6 +124,7 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }
     
     func setupConstraints() {
+        // set up name of task
         taskInfo.nameOfTask.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
         taskInfo.nameOfTask.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         taskInfo.nameOfTask.heightAnchor.constraint(equalToConstant: 50).isActive = true
