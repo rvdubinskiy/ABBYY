@@ -28,6 +28,8 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         setupdefaultSettings()
         setupDates()
         setupCreateView()
+        createStatusPicker()
+        createToolBar()
     }
     
     func setupNavigationItems() {
@@ -37,8 +39,10 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         let editButton = UIBarButtonItem.init(title: "Edit", style: .plain, target: self, action: #selector(beginEditing))
         
         navigationItem.rightBarButtonItems = [editButton]
-        self.toolbarItems = [UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(finishTask))
-]
+        self.toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+                             UIBarButtonItem.init(title: "by Roman", style: .plain, target: self, action: nil),
+                             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)]
+
     }
     
     func setupdefaultSettings() {
@@ -74,6 +78,9 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // Present the controller
         self.present(alertController, animated: true, completion: nil)
+        
+        
+        
 
     }
     
@@ -102,14 +109,20 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
     @objc func changeDates() {
     
         var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
-
-        
         index![indexOfCurrentElement][1] = taskInfo.nameOfTask.text ?? "Default"
         index![indexOfCurrentElement][2] = (taskInfo.comment.text! as NSString) as String
-        index![indexOfCurrentElement][4] = "1"
+        
+        if taskInfo.statusFiels.text == "Status: new" {
+            index![indexOfCurrentElement][4] = "0"
+        } else if taskInfo.statusFiels.text == "Status: in the process" {
+            index![indexOfCurrentElement][4] = "1"
+        } else if taskInfo.statusFiels.text == "Status: done" {
+            index![indexOfCurrentElement][4] = "2"
+        } else {
+            index![indexOfCurrentElement][4] = "0"
+        }
         
         UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: userKey.key)
-        
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -123,6 +136,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.view.addSubview(taskInfo.nameOfTask)
         self.view.addSubview(taskInfo.comment)
         self.view.addSubview(taskInfo.createButton)
+        self.view.addSubview(taskInfo.statusFiels)
         taskInfo.nameOfTask.delegate = self
         
         setupConstraints()
@@ -140,8 +154,15 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
         taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/5).isActive = true
         
+        
+        // setup status button
+        taskInfo.statusFiels.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
+        taskInfo.statusFiels.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        taskInfo.statusFiels.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        taskInfo.statusFiels.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
         //setup button - create task
-        taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
+        taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.statusFiels.bottomAnchor, constant: 20).isActive = true
         taskInfo.createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         taskInfo.createButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         taskInfo.createButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -176,6 +197,11 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         let changedText = currentText.replacingCharacters(in: stringRange, with: text)
         
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        
         return changedText.count <= 500
     }
     func textViewShouldReturn(textView: UITextView!) -> Bool {
@@ -183,5 +209,59 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         return true;
     }
     
+    ///////
+    let statuses = ["new",
+                    "in the process",
+                    "done"]
+    
+    var selectedStatus: String?
+    
+    func createStatusPicker() {
+        var statusPicker = UIPickerView()
+        statusPicker.delegate = self
+        
+        taskInfo.statusFiels.inputView = statusPicker
+    }
+    @objc func dismissKeyboard()
+    {
+        taskInfo.statusFiels.endEditing(true)
+    }
+    
+    func createToolBar() {
+        var toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(InformationViewController.dismissKeyboard))
+        toolBar.setItems([doneButton], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        
+        taskInfo.statusFiels.inputAccessoryView = toolBar
+        buttonSettings()
+        
+    }
+    
+    
+    
 }
 
+extension InformationViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return statuses.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return statuses[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedStatus = statuses[row]
+        
+        taskInfo.statusFiels.text = "Status: \(selectedStatus!)"
+    }
+    
+}

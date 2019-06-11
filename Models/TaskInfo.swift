@@ -52,6 +52,15 @@ struct TaskInfo {
         return button
     }()
     
-    
+    lazy var statusFiels: UITextField = {
+        var field = UITextField()
+        field.translatesAutoresizingMaskIntoConstraints = false
+        field.layer.masksToBounds = true
+        field.text = "Status: new"
+        field.font = UIFont.boldSystemFont(ofSize: 17)
+        field.textColor = UIColor.gray
+        field.textAlignment = .center
+        return field
+    }()
     
 }

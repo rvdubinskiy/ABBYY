@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     // key word for userDefault
     var userKey = UserKey()
     // just flag
-    var flag: Bool = false
+    var flag: Bool = true
     
     
     var refreshControl: UIRefreshControl?

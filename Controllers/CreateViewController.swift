@@ -160,6 +160,11 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         
         let changedText = currentText.replacingCharacters(in: stringRange, with: text)
         
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        
         return changedText.count <= 500
     }
     func textViewShouldReturn(textView: UITextView!) -> Bool {

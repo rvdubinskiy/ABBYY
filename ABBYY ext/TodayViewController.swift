@@ -133,7 +133,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             nameOfTaskLabel.label.text = "dude"
             time.label.text = "trust"
             commentsLabel.label.text = "no"
-            status.label.text = "one"
+            status.label.text = "oneры"
         }
         
         
