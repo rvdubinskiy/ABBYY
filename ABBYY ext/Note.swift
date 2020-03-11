@@ -1,8 +1,8 @@
 //
 //  Note.swift
-//  ABBYY ext
+//  ABBYY
 //
-//  Created by Roman Dubinskiy on 6/5/19.
+//  Created by Roman Dubinskiy on 5/26/19.
 //  Copyright © 2019 Roman Dubinskiy. All rights reserved.
 //
 
@@ -14,5 +14,6 @@ struct Note {
     var date: String
     var status: String
     var comments: String
-    var id: String
+    var id: Int
+    var currentDate: String
 }

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F0865F42416680700D353F7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0865F32416680700D353F7 /* CloudKit.framework */; };
+		6F0865F824167B3400D353F7 /* NewPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0865F724167B3400D353F7 /* NewPS.swift */; };
+		6F0865FD24167D1B00D353F7 /* ABBYY.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF7E2299625F006A9748 /* ABBYY.xcdatamodeld */; };
+		6F0865FE24167D1C00D353F7 /* ABBYY.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF7E2299625F006A9748 /* ABBYY.xcdatamodeld */; };
+		6F086602241681F800D353F7 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8809A122A6C58800B3E86E /* TodayViewController.swift */; };
+		6F086608241682F600D353F7 /* NewPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0865F724167B3400D353F7 /* NewPS.swift */; };
+		6F08660A2416844F00D353F7 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0866092416844F00D353F7 /* Note.swift */; };
 		6F0ABF782299625F006A9748 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF772299625F006A9748 /* AppDelegate.swift */; };
 		6F0ABF7A2299625F006A9748 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF792299625F006A9748 /* ViewController.swift */; };
 		6F0ABF7D2299625F006A9748 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F0ABF7B2299625F006A9748 /* Main.storyboard */; };
@@ -16,15 +23,30 @@
 		6F0ABF8D229A9A82006A9748 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF8C229A9A82006A9748 /* CustomTableViewCell.swift */; };
 		6F0ABF8F229AA5EC006A9748 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF8E229AA5EC006A9748 /* Note.swift */; };
 		6F0ABF92229AC9DD006A9748 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF91229AC9DD006A9748 /* CreateViewController.swift */; };
+		6F26B0E92413B3F800574572 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */; };
+		6F26B0EA2413B3F800574572 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */; };
+		6F26B0F6241426ED00574572 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F26B0F5241426ED00574572 /* NotificationService.swift */; };
 		6F5F815A22A1A57B00F1A197 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5F815922A1A57B00F1A197 /* InformationViewController.swift */; };
+		6F7ADCE62417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */; };
+		6F7ADCE72417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */; };
+		6F7ADCE82417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */; };
+		6F7ADCE92417DFC00074B6F9 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */; };
+		6F7ADCEB2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCEF2417DFC70074B6F9 /* Quicksand-M.ttf */; };
+		6F7ADCEC2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCEF2417DFC70074B6F9 /* Quicksand-M.ttf */; };
+		6F7ADCED2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCEF2417DFC70074B6F9 /* Quicksand-M.ttf */; };
+		6F7ADCF32418D0A80074B6F9 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF02418D0A80074B6F9 /* Comfortaa-Light.ttf */; };
+		6F7ADCF42418D0A90074B6F9 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF02418D0A80074B6F9 /* Comfortaa-Light.ttf */; };
+		6F7ADCF52418D0A90074B6F9 /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF02418D0A80074B6F9 /* Comfortaa-Light.ttf */; };
+		6F7ADCF62418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF12418D0A80074B6F9 /* Comfortaa-Regular.ttf */; };
+		6F7ADCF72418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF12418D0A80074B6F9 /* Comfortaa-Regular.ttf */; };
+		6F7ADCF82418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF12418D0A80074B6F9 /* Comfortaa-Regular.ttf */; };
+		6F7ADCF92418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF22418D0A80074B6F9 /* Comfortaa-Bold.ttf */; };
+		6F7ADCFA2418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF22418D0A80074B6F9 /* Comfortaa-Bold.ttf */; };
+		6F7ADCFB2418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCF22418D0A80074B6F9 /* Comfortaa-Bold.ttf */; };
 		6F88099322A677B500B3E86E /* TaskInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F88099222A677B500B3E86E /* TaskInfo.swift */; };
-		6F88099522A6793000B3E86E /* UserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F88099422A6793000B3E86E /* UserKey.swift */; };
 		6F88099F22A6C58800B3E86E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F88099E22A6C58800B3E86E /* NotificationCenter.framework */; };
-		6F8809A222A6C58800B3E86E /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8809A122A6C58800B3E86E /* TodayViewController.swift */; };
 		6F8809A522A6C58800B3E86E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F8809A322A6C58800B3E86E /* MainInterface.storyboard */; };
 		6F8809A922A6C58800B3E86E /* ABBYY ext.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6F88099C22A6C58800B3E86E /* ABBYY ext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		6F8809B222A6C8BC00B3E86E /* OwnLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8809B022A6C7FA00B3E86E /* OwnLabel.swift */; };
-		6F8809B422A800E400B3E86E /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8809B322A800E400B3E86E /* Note.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +74,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F0865F32416680700D353F7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		6F0865F724167B3400D353F7 /* NewPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPS.swift; sourceTree = "<group>"; };
+		6F0866092416844F00D353F7 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		6F0ABF742299625F006A9748 /* ABBYY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABBYY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F0ABF772299625F006A9748 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6F0ABF792299625F006A9748 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,22 +88,36 @@
 		6F0ABF8C229A9A82006A9748 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		6F0ABF8E229AA5EC006A9748 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		6F0ABF91229AC9DD006A9748 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
+		6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
+		6F26B0F3241426ED00574572 /* WatchNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F26B0F5241426ED00574572 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		6F26B0F7241426ED00574572 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F5F815922A1A57B00F1A197 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
+		6F7ADCEE2417DFC70074B6F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Quicksand-M.ttf"; sourceTree = "<group>"; };
+		6F7ADCF02418D0A80074B6F9 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Light.ttf"; sourceTree = "<group>"; };
+		6F7ADCF12418D0A80074B6F9 /* Comfortaa-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Regular.ttf"; sourceTree = "<group>"; };
+		6F7ADCF22418D0A80074B6F9 /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Comfortaa-Bold.ttf"; sourceTree = "<group>"; };
 		6F88099222A677B500B3E86E /* TaskInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInfo.swift; sourceTree = "<group>"; };
-		6F88099422A6793000B3E86E /* UserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserKey.swift; sourceTree = "<group>"; };
 		6F88099C22A6C58800B3E86E /* ABBYY ext.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ABBYY ext.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F88099E22A6C58800B3E86E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		6F8809A122A6C58800B3E86E /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		6F8809A122A6C58800B3E86E /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodayViewController.swift; path = "ABBYY ext/TodayViewController.swift"; sourceTree = SOURCE_ROOT; };
 		6F8809A422A6C58800B3E86E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		6F8809A622A6C58800B3E86E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F8809AE22A6C5CB00B3E86E /* ABBYY.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ABBYY.entitlements; sourceTree = "<group>"; };
 		6F8809AF22A6C60000B3E86E /* ABBYY ext.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ABBYY ext.entitlements"; sourceTree = "<group>"; };
-		6F8809B022A6C7FA00B3E86E /* OwnLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnLabel.swift; sourceTree = "<group>"; };
-		6F8809B322A800E400B3E86E /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6F0ABF712299625F006A9748 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F0865F42416680700D353F7 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F26B0F0241426ED00574572 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -99,11 +138,14 @@
 		6F0ABF6B2299625E006A9748 = {
 			isa = PBXGroup;
 			children = (
-				6F88099722A67B6A00B3E86E /* Views */,
+				6F0865F724167B3400D353F7 /* NewPS.swift */,
 				6F0ABF93229ACC05006A9748 /* Models */,
+				6F26B0E62413B3E100574572 /* Fonts */,
+				6F88099722A67B6A00B3E86E /* Views */,
 				6F0ABF90229AC9AA006A9748 /* Controllers */,
 				6F0ABF762299625F006A9748 /* ABBYY */,
 				6F8809A022A6C58800B3E86E /* ABBYY ext */,
+				6F26B0F4241426ED00574572 /* WatchNotification */,
 				6F88099D22A6C58800B3E86E /* Frameworks */,
 				6F0ABF752299625F006A9748 /* Products */,
 			);
@@ -114,6 +156,7 @@
 			children = (
 				6F0ABF742299625F006A9748 /* ABBYY.app */,
 				6F88099C22A6C58800B3E86E /* ABBYY ext.appex */,
+				6F26B0F3241426ED00574572 /* WatchNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,9 +190,30 @@
 			children = (
 				6F0ABF8E229AA5EC006A9748 /* Note.swift */,
 				6F88099222A677B500B3E86E /* TaskInfo.swift */,
-				6F88099422A6793000B3E86E /* UserKey.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		6F26B0E62413B3E100574572 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6F7ADCF22418D0A80074B6F9 /* Comfortaa-Bold.ttf */,
+				6F7ADCF02418D0A80074B6F9 /* Comfortaa-Light.ttf */,
+				6F7ADCF12418D0A80074B6F9 /* Comfortaa-Regular.ttf */,
+				6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */,
+				6F7ADCEF2417DFC70074B6F9 /* Quicksand-M.ttf */,
+				6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		6F26B0F4241426ED00574572 /* WatchNotification */ = {
+			isa = PBXGroup;
+			children = (
+				6F26B0F5241426ED00574572 /* NotificationService.swift */,
+				6F26B0F7241426ED00574572 /* Info.plist */,
+			);
+			path = WatchNotification;
 			sourceTree = "<group>";
 		};
 		6F88099722A67B6A00B3E86E /* Views */ = {
@@ -163,6 +227,7 @@
 		6F88099D22A6C58800B3E86E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F0865F32416680700D353F7 /* CloudKit.framework */,
 				6F88099E22A6C58800B3E86E /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -171,12 +236,11 @@
 		6F8809A022A6C58800B3E86E /* ABBYY ext */ = {
 			isa = PBXGroup;
 			children = (
-				6F8809B022A6C7FA00B3E86E /* OwnLabel.swift */,
 				6F8809AF22A6C60000B3E86E /* ABBYY ext.entitlements */,
 				6F8809A122A6C58800B3E86E /* TodayViewController.swift */,
 				6F8809A322A6C58800B3E86E /* MainInterface.storyboard */,
 				6F8809A622A6C58800B3E86E /* Info.plist */,
-				6F8809B322A800E400B3E86E /* Note.swift */,
+				6F0866092416844F00D353F7 /* Note.swift */,
 			);
 			path = "ABBYY ext";
 			sourceTree = "<group>";
@@ -203,6 +267,23 @@
 			productReference = 6F0ABF742299625F006A9748 /* ABBYY.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6F26B0F2241426ED00574572 /* WatchNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F26B0F8241426ED00574572 /* Build configuration list for PBXNativeTarget "WatchNotification" */;
+			buildPhases = (
+				6F26B0EF241426ED00574572 /* Sources */,
+				6F26B0F0241426ED00574572 /* Frameworks */,
+				6F26B0F1241426ED00574572 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WatchNotification;
+			productName = WatchNotification;
+			productReference = 6F26B0F3241426ED00574572 /* WatchNotification.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		6F88099B22A6C58800B3E86E /* ABBYY ext */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F8809AA22A6C58800B3E86E /* Build configuration list for PBXNativeTarget "ABBYY ext" */;
@@ -226,7 +307,7 @@
 		6F0ABF6C2299625E006A9748 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Roman Dubinskiy";
 				TargetAttributes = {
@@ -237,6 +318,9 @@
 								enabled = 1;
 							};
 						};
+					};
+					6F26B0F2241426ED00574572 = {
+						CreatedOnToolsVersion = 11.3.1;
 					};
 					6F88099B22A6C58800B3E86E = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -263,6 +347,7 @@
 			targets = (
 				6F0ABF732299625F006A9748 /* ABBYY */,
 				6F88099B22A6C58800B3E86E /* ABBYY ext */,
+				6F26B0F2241426ED00574572 /* WatchNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -273,8 +358,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F0ABF8522996260006A9748 /* LaunchScreen.storyboard in Resources */,
+				6F7ADCE62417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */,
+				6F7ADCEB2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */,
 				6F0ABF8222996260006A9748 /* Assets.xcassets in Resources */,
+				6F7ADCF62418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */,
+				6F7ADCF32418D0A80074B6F9 /* Comfortaa-Light.ttf in Resources */,
+				6F26B0E92413B3F800574572 /* Quicksand-Regular.ttf in Resources */,
 				6F0ABF7D2299625F006A9748 /* Main.storyboard in Resources */,
+				6F7ADCF92418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F26B0F1241426ED00574572 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F7ADCF52418D0A90074B6F9 /* Comfortaa-Light.ttf in Resources */,
+				6F7ADCED2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */,
+				6F7ADCFB2418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */,
+				6F7ADCE82417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */,
+				6F7ADCF82418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */,
+				6F7ADCE92417DFC00074B6F9 /* Quicksand-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +386,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F7ADCEC2417DFC70074B6F9 /* Quicksand-M.ttf in Resources */,
+				6F26B0EA2413B3F800574572 /* Quicksand-Regular.ttf in Resources */,
 				6F8809A522A6C58800B3E86E /* MainInterface.storyboard in Resources */,
+				6F7ADCE72417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */,
+				6F7ADCF72418D0A90074B6F9 /* Comfortaa-Regular.ttf in Resources */,
+				6F7ADCF42418D0A90074B6F9 /* Comfortaa-Light.ttf in Resources */,
+				6F7ADCFA2418D0A90074B6F9 /* Comfortaa-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +403,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F88099522A6793000B3E86E /* UserKey.swift in Sources */,
 				6F88099322A677B500B3E86E /* TaskInfo.swift in Sources */,
 				6F5F815A22A1A57B00F1A197 /* InformationViewController.swift in Sources */,
 				6F0ABF8F229AA5EC006A9748 /* Note.swift in Sources */,
@@ -302,6 +411,16 @@
 				6F0ABF802299625F006A9748 /* ABBYY.xcdatamodeld in Sources */,
 				6F0ABF8D229A9A82006A9748 /* CustomTableViewCell.swift in Sources */,
 				6F0ABF782299625F006A9748 /* AppDelegate.swift in Sources */,
+				6F0865F824167B3400D353F7 /* NewPS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F26B0EF241426ED00574572 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F26B0F6241426ED00574572 /* NotificationService.swift in Sources */,
+				6F0865FE24167D1C00D353F7 /* ABBYY.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,9 +428,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F8809B222A6C8BC00B3E86E /* OwnLabel.swift in Sources */,
-				6F8809A222A6C58800B3E86E /* TodayViewController.swift in Sources */,
-				6F8809B422A800E400B3E86E /* Note.swift in Sources */,
+				6F086602241681F800D353F7 /* TodayViewController.swift in Sources */,
+				6F0865FD24167D1B00D353F7 /* ABBYY.xcdatamodeld in Sources */,
+				6F086608241682F600D353F7 /* NewPS.swift in Sources */,
+				6F08660A2416844F00D353F7 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +460,14 @@
 				6F0ABF8422996260006A9748 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6F7ADCEF2417DFC70074B6F9 /* Quicksand-M.ttf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F7ADCEE2417DFC70074B6F9 /* Base */,
+			);
+			name = "Quicksand-M.ttf";
 			sourceTree = "<group>";
 		};
 		6F8809A322A6C58800B3E86E /* MainInterface.storyboard */ = {
@@ -476,13 +604,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ABBYY/ABBYY.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				DEVELOPMENT_TEAM = A4GMNC2SM4;
 				INFOPLIST_FILE = ABBYY/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Dubinskiy-Roman.ABBYY";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rvdubinskiy.ABBYY-2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -496,16 +625,61 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ABBYY/ABBYY.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				DEVELOPMENT_TEAM = A4GMNC2SM4;
 				INFOPLIST_FILE = ABBYY/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Dubinskiy-Roman.ABBYY";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rvdubinskiy.ABBYY-2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6F26B0F9241426ED00574572 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				INFOPLIST_FILE = WatchNotification/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rvdubinskiy.ABBYY.WatchNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		6F26B0FA241426ED00574572 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				INFOPLIST_FILE = WatchNotification/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rvdubinskiy.ABBYY.WatchNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
 			};
 			name = Release;
 		};
@@ -514,14 +688,14 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "ABBYY ext/ABBYY ext.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				DEVELOPMENT_TEAM = A4GMNC2SM4;
 				INFOPLIST_FILE = "ABBYY ext/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Dubinskiy-Roman.ABBYY.ABBYY-ext";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rvdubinskiy.ABBYY-2.ABBYY-ext";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -534,14 +708,14 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "ABBYY ext/ABBYY ext.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CK4XPKYQ68;
+				DEVELOPMENT_TEAM = A4GMNC2SM4;
 				INFOPLIST_FILE = "ABBYY ext/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Dubinskiy-Roman.ABBYY.ABBYY-ext";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rvdubinskiy.ABBYY-2.ABBYY-ext";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -566,6 +740,15 @@
 			buildConfigurations = (
 				6F0ABF8A22996260006A9748 /* Debug */,
 				6F0ABF8B22996260006A9748 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F26B0F8241426ED00574572 /* Build configuration list for PBXNativeTarget "WatchNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F26B0F9241426ED00574572 /* Debug */,
+				6F26B0FA241426ED00574572 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

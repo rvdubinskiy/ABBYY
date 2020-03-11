@@ -14,6 +14,6 @@ struct Note {
     var date: String
     var status: String
     var comments: String
-    var id: String
+    var id: Int
     var currentDate: String
 }

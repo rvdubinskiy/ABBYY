@@ -8,10 +8,11 @@
 
 import UIKit
 import NotificationCenter
+import CoreData
+
 
 class TodayViewController: UIViewController, NCWidgetProviding {
-    
-    
+    var taskId = 0;
     lazy var button: UIButton = {
         var button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -20,13 +21,35 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return button
     }()
     // label which called up a name of task
-    var nameOfTaskLabel = OwnLabel()
+    var nameOfTaskLabel: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.masksToBounds = true
+        return label
+    }()
+    
+    
     // label which called up comments for task
-    var commentsLabel = OwnLabel()
+    var commentsLabel: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.masksToBounds = true
+        return label
+    }()
     // label which called up time
-    var time = OwnLabel()
+    var time: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.masksToBounds = true
+        return label
+    }()
     // label which called up a status
-    var status = OwnLabel()
+    var status: UILabel = {
+        var label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.masksToBounds = true
+        return label
+    }()
     
     override func viewDidAppear(_ animated: Bool) {
     }
@@ -34,10 +57,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(nameOfTaskLabel.label)
-        view.addSubview(time.label)
-        view.addSubview(commentsLabel.label)
-        view.addSubview(status.label)
+        view.addSubview(nameOfTaskLabel)
+        view.addSubview(time)
+        view.addSubview(commentsLabel)
+        view.addSubview(status)
         view.addSubview(button)
         setupSettingsForElements()
         
@@ -45,13 +68,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     @objc func goToMainApp() {
-        extensionContext?.open(NSURL(string: "abbyy://more")! as URL, completionHandler: nil)
+        
+        let url: URL? = URL(string: "kek://\(taskId)")!
+        if let appurl = url { self.extensionContext!.open(appurl, completionHandler: nil) }
     }
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        view.addSubview(nameOfTaskLabel.label)
-        view.addSubview(time.label)
-        view.addSubview(commentsLabel.label)
-        view.addSubview(status.label)
+        view.addSubview(nameOfTaskLabel)
+        view.addSubview(time)
+        view.addSubview(commentsLabel)
+        view.addSubview(status)
         view.addSubview(button)
         setupSettingsForElements()
         
@@ -59,15 +84,27 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         completionHandler(NCUpdateResult.newData)
     }
+    var persistentContainer: NSPersistentContainer = {
+
+        let container = NewPS(name: "ABBYY");
+        
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     
     
     // set up settings main frame
     func setupSettingsForElements() {
-        var note = [String]()
-        nameOfTaskLabel.label.font = UIFont.boldSystemFont(ofSize: 25)
-        time.label.font = UIFont.systemFont(ofSize: 15)
-        commentsLabel.label.font = UIFont.systemFont(ofSize: 15)
-        status.label.font = UIFont.systemFont(ofSize: 15)
+        var note = Note(nameOfTask: "default", date: "default", status: "default", comments: "default", id: 0, currentDate: "default");
+        nameOfTaskLabel.font = UIFont.boldSystemFont(ofSize: 25)
+        time.font = UIFont.systemFont(ofSize: 15)
+        commentsLabel.font = UIFont.systemFont(ofSize: 15)
+        status.font = UIFont.systemFont(ofSize: 15)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -75,82 +112,104 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var tempString = String()
         var timeForCompare = String()
         
-        var dates = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: "def1") as! [[String]] ?? [[""]]
-        dates.reverse()
+        var dates = retrieveData();
 
         // тут сортировка для отображения ближайшей задачи, у которой не стоит статус "done"
-        for item in 0..<dates.count {
+        for item in 0..<dates!.count {
             // тут я сравниваю по дням + статус
-            if dates[item][5] >= tempString && dates[item][4] == "0"{
+            if dates![item].date >= tempString && dates![item].status == "new"{
                 // тут сравниваю по времени(часы, минуты и секунды), чтобы получить свежий невыолненный таск
-                if dates[item][2] > timeForCompare {
-                    tempString = dates[item][5]
-                    timeForCompare = dates[item][2]
-                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates, item: item)
+                if dates![item].currentDate > timeForCompare {
+                    tempString = dates![item].date
+                    timeForCompare = dates![item].currentDate
+                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates!, item: item)
                 }
-            } else if dates[item][5] >= tempString && dates[item][4] == "1" {
+            } else if dates![item].currentDate >= tempString && dates![item].status == "in the proccess" {
                 // тут аналогично, но для другого статуса.
-                if dates[item][2] > timeForCompare {
-                    tempString = dates[item][5]
-                    timeForCompare = dates[item][2]
-                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates, item: item)
+                if dates![item].date > timeForCompare {
+                    tempString = dates![item].currentDate
+                    timeForCompare = dates![item].date
+                    note = SetParameters(tempString: tempString, timeForCompare: timeForCompare, dates: dates!, item: item)
                 }
             } else {
-                note.append("1")
-                note.append("Надеюсь")
-                note.append("сейчас")
-                note.append("все")
-                note.append("окей")
-                note.append("1")
+                note = Note(nameOfTask: "default", date: "default", status: "default", comments: "default", id: 0, currentDate: "default");
             }
         }
-        
-        
-        if dates.count != 0 {
-            
-            if currentDateString > note[5] && note[3] == "new"{
-                nameOfTaskLabel.label.text = note[1]
-                time.label.text = currentDateString
-                commentsLabel.label.text = note[4]
-                status.label.text = note[3]
-            } else if currentDateString > note[5] && note[3] == "in the process" {
-                nameOfTaskLabel.label.text = note[1]
-                time.label.text = currentDateString
-                commentsLabel.label.text = note[4]
-                status.label.text = note[3]
-            } else if currentDateString == note[5] && (note[3] == "new" || note[3] == "in the process") {
-                nameOfTaskLabel.label.text = note[1]
-                time.label.text = note[2]
-                commentsLabel.label.text = note[4]
-                status.label.text = note[3]
+        if dates!.count != 0 {
+
+            if currentDateString > note.currentDate && note.status == "new"{
+                nameOfTaskLabel.text = note.nameOfTask
+                time.text = currentDateString
+                commentsLabel.text = note.comments
+                status.text = note.status
+                taskId = note.id;
+            } else if currentDateString > note.currentDate && note.status == "in the process" {
+                nameOfTaskLabel.text = note.nameOfTask
+                time.text = currentDateString
+                commentsLabel.text = note.comments
+                status.text = note.status
+                taskId = note.id;
+            } else if currentDateString == note.currentDate && (note.status == "new" || note.status == "in the process") {
+                nameOfTaskLabel.text = note.nameOfTask
+                time.text = note.date
+                commentsLabel.text = note.comments
+                status.text = note.status
+                taskId = note.id;
             } else {
-                nameOfTaskLabel.label.text = "dude"
-                time.label.text = "trust"
-                commentsLabel.label.text = "no"
-                status.label.text = "one!"
+                nameOfTaskLabel.text = "dude"
+                time.text = "trust"
+                commentsLabel.text = "no"
+                status.text = "one!"
+                taskId = 0;
             }
         } else {
-            nameOfTaskLabel.label.text = "dude"
-            time.label.text = "trust"
-            commentsLabel.label.text = "no"
-            status.label.text = "oneры"
+            nameOfTaskLabel.text = "dude"
+            time.text = "trust"
+            commentsLabel.text = "no"
+            status.text = "oneры"
+            taskId = 0;
         }
-        
-        
-        UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(note, forKey: "widjetDate")
+
         
     }
     
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    func retrieveData() -> [Note]? {
+        let managedContext = self.persistentContainer.viewContext;
+        
+    
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            var notes = [Note]();
+            for data in result as! [NSManagedObject] {
+                let note = Note(nameOfTask: data.value(forKey: "name") as! String, date: data.value(forKey: "time") as! String, status: GetStatusFromInt(intStatus: data.value(forKey: "status") as! String), comments: data.value(forKey: "comments") as! String, id: data.value(forKey: "id") as! Int, currentDate: data.value(forKey: "current_date") as! String);
+                
+                notes.append(note);
+            }
+            return notes;
+        } catch {
+            print("Failed")
+        }
+        return nil;
+    }
+    
     // тут считаю максимально подходящую
-    func SetParameters(tempString: String, timeForCompare: String, dates: [[String]],  item: Int) -> [String] {
-        var notes = [String]()
-        notes.append(dates[item][0])
-        notes.append(dates[item][1])
-        notes.append(dates[item][3])
-        notes.append(GetStatusFromInt(intStatus: dates[item][4]))
-        notes.append(timeForCompare)
-        notes.append(tempString)
-        return notes
+    func SetParameters(tempString: String, timeForCompare: String, dates: [Note],  item: Int) -> Note {
+        let note = Note(nameOfTask: dates[item].nameOfTask, date: dates[item].date, status: dates[item].status, comments: dates[item].comments, id: dates[item].id, currentDate: dates[item].currentDate);
+        return note
     }
     
     // get status from string format as int
@@ -164,7 +223,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         case "2":
             return "done"
         default:
-            return "nnnnew"
+            return "error in Today Extension"
         }
     }
     
@@ -174,31 +233,31 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         button.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         button.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
-        
+
         // bounds for name of task label
-        nameOfTaskLabel.label.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
-        nameOfTaskLabel.label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 12).isActive = true
-        nameOfTaskLabel.label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        nameOfTaskLabel.label.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 5/10).isActive = true
-        
-        
+        nameOfTaskLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
+        nameOfTaskLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 12).isActive = true
+        nameOfTaskLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        nameOfTaskLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 5/10).isActive = true
+
+
         // bounds for time label
-        time.label.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        time.label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 12).isActive = true
-        time.label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        time.label.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 3/10).isActive = true
-        
+        time.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 10).isActive = true
+        time.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 12).isActive = true
+        time.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        time.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 3/10).isActive = true
+
         // bounds for comments label
-        commentsLabel.label.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
-        commentsLabel.label.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
-        commentsLabel.label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        commentsLabel.label.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1/2).isActive = true
+        commentsLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
+        commentsLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+        commentsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        commentsLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1/2).isActive = true
 
         // bounds for status label
-        status.label.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        status.label.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
-        status.label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        status.label.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 3/10).isActive = true
+        status.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 10).isActive = true
+        status.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+        status.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        status.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 3/10).isActive = true
     }
-    
+
 }

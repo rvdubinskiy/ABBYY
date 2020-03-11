@@ -7,13 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
     
     // array with suitable parameters
     private var notes: [Note] = [Note]()
     // key word for userDefault
-    var userKey = UserKey()
     // just flag
     var flag: Bool = true
     
@@ -31,20 +31,31 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         refreshing()
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let search = UISearchController(searchResultsController: nil)
         self.navigationItem.searchController = search
+    
         
         title = "Tasks"
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+                self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont.init(name: "Quicksand-Bold", size: 40)!]
+        
+        let sortImage = UIImage(named: "sort")!
+        let makeNoteImage = UIImage(named: "makeNote")!
+        let sortButton = UIBarButtonItem(image: sortImage, style: .plain, target: self, action: #selector(sortStatuses))
+        sortButton.tintColor = UIColor.black
+        let createTaskButton = UIBarButtonItem(image: makeNoteImage, style: .plain, target: self, action: #selector(goToCreatePage))
+        createTaskButton.tintColor = UIColor.black
+        
+        navigationItem.rightBarButtonItems = [createTaskButton, sortButton]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-
-        setToolBar()
+    
         setTableView()
     }
     
@@ -98,7 +109,6 @@ class ViewController: UIViewController {
   
         setupBounds()
         addRefreshView()
-        refreshing()
     }
     
     // function ti add refresh view
@@ -113,19 +123,12 @@ class ViewController: UIViewController {
     
     // download elements after refresh
     @objc func refreshing() {
-        notes = [Note]()
-        var dates = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
-
-        if(dates != nil) {
-            let number = dates?.count
-            for i in 0..<number! {
-                var newStatus = String()
-                newStatus = GetStatusFromInt(intStatus: dates![i][4])
-                notes.append(Note(nameOfTask: dates![i][1], date: dates![i][3], status: newStatus, comments: dates![i][2], id: dates![i][0], currentDate: dates![i][5]))
+        if let kek = retrieveData() {
+            for i in 0..<kek.count {
+                updateData(fromIndex: kek.reversed()[i].id, index: i);
             }
-            notes = notes.reversed()
+            notes = (retrieveData()?.reversed())!
         }
-        
         refreshControl?.endRefreshing()
         tableView.reloadData()
     }
@@ -141,7 +144,7 @@ class ViewController: UIViewController {
         case "2":
             return "done"
         default:
-            return "nnnnew"
+            return "error in View Controller"
         }
     }
     
@@ -185,38 +188,104 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let rateAction = UITableViewRowAction(style: .destructive, title: "Delete" , handler: { (action: UITableViewRowAction, indexPath:IndexPath) -> Void in
-
-            var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: self.userKey.key) as? [[String]] ?? [["empty"]]
-            index.reverse()
-            index.remove(at: indexPath.row)
-            index.reverse()
-                
-            self.notes.remove(at: indexPath.row)
-            
-            var arrayEl = [[String]]()
+//            delete from notes
+             self.notes.remove(at: indexPath.row)
             
             
-            for i in 0..<index.count {
-                var temp = [String]()
-                temp.append(index[i][0])
-                temp.append(index[i][1])
-                temp.append(index[i][2])
-                temp.append(index[i][3])
-                temp.append(index[i][4])
-                temp.append(index[i][5])
-                
-                arrayEl.append(temp)
-            }
-            UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(arrayEl, forKey: self.userKey.key)
-            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+             
+             //We need to create a context from this container
+             let managedContext = appDelegate.persistentContainer.viewContext
+             
+             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
+            fetchRequest.predicate = NSPredicate(format: "id = %@", "\(indexPath.row)")
+            
+             do
+             {
+                 let test = try managedContext.fetch(fetchRequest)
+                 let objectToDelete = test[0] as! NSManagedObject
+                 managedContext.delete(objectToDelete)
+                 
+                 do{
+                     try managedContext.save()
+                        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+                    if let kek = self.retrieveData() {
+                               for i in 0..<kek.count {
+                                self.updateData(fromIndex: kek.reversed()[i].id, index: i);
+                               }
+                        self.notes = (self.retrieveData()?.reversed())!
+                           }
+                 }
+                 catch
+                 {
+                     print(error)
+                 }
+                 
+             }
+             catch
+             {
+                 print(error)
+             }
         })
-        return [rateAction]
+        
+        return [rateAction];
     }
+    
+    func retrieveData() -> [Note]? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil}
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+    
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            var notes = [Note]();
+            for data in result as! [NSManagedObject] {
+                let note = Note(nameOfTask: data.value(forKey: "name") as! String, date: data.value(forKey: "time") as! String, status: GetStatusFromInt(intStatus: data.value(forKey: "status") as! String), comments: data.value(forKey: "comments") as! String, id: data.value(forKey: "id") as! Int, currentDate: data.value(forKey: "current_date") as! String);
+                notes.append(note);
+            }
+            return notes;
+        } catch {
+            print("Failed")
+        }
+        return nil;
+    }
+    func updateData(fromIndex: Int, index: Int){
+
+         //As we know that container is set up in the AppDelegates so we need to refer that container.
+         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+         let managedContext = appDelegate.persistentContainer.viewContext
+
+         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Task")
+         fetchRequest.predicate = NSPredicate(format: "id == \(fromIndex)")
+         do
+         {
+             let test = try managedContext.fetch(fetchRequest)
+
+                 let objectUpdate = test[0] as! NSManagedObject
+                 objectUpdate.setValue(index, forKey: "id")
+                 do{
+                     try managedContext.save()
+                 }
+                 catch
+                 {
+                     print(error)
+                 }
+             }
+         catch
+         {
+             print(error)
+         }
+
+     }
+
     
     // go to information about task
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let information = InformationViewController(with: notes[indexPath.row], index: notes[indexPath.row].id)
+        let information = InformationViewController(with: notes[indexPath.row], index: String(notes[indexPath.row].id))
         self.navigationController?.pushViewController(information, animated: true)
     }
     

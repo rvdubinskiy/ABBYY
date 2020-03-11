@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-struct OwnLabel {
-    lazy var label: UILabel = {
+class OwnLabel {
+    var label: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.layer.masksToBounds = true

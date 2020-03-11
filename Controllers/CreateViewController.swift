@@ -7,74 +7,29 @@
 //
 
 import UIKit
+import CoreData
 
 class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     var taskInfo = TaskInfo()
-    var userKey = UserKey()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mainSettingsOfWindow()
-        taskInfo.createButton.addTarget(self, action: #selector(createNewTask), for: .touchUpInside)
+        taskInfo.createButton.addTarget(self, action: #selector(createData), for: .touchUpInside)
         setupCreateView()
     }
     
     func mainSettingsOfWindow() {
         
         title = "Create"
+        navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.prefersLargeTitles = true
         
         self.view.backgroundColor = UIColor.white
     }
-    
-    // action after click on Create task button
-    @objc func createNewTask() {
-        let date = Date()
-        let time = GetTimeString(date: date)
-        var arrayEl = [[String]]()
-        var str = [String]()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
-        let currentDateString: String = dateFormatter.string(from: date)
-        
-        
-        
-        let arrayCom = taskInfo.comment.text! as NSString
-        var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
-        
 
-        let ind = index?.count ?? 0 + 1
-        str.append("\(ind)")
-        str.append(taskInfo.nameOfTask.text!)
-        str.append(arrayCom as String)
-        str.append(time)
-        str.append("0")
-        str.append(currentDateString)
-
-        if(index != nil) {
-            for i in 0..<index!.count {
-                var temp = [String]()
-                temp.append(index![i][0])
-                temp.append(index![i][1])
-                temp.append(index![i][2])
-                temp.append(index![i][3])
-                temp.append(index![i][4])
-                temp.append(index![i][5])
-                
-                arrayEl.append(temp)
-            }
-        }
-        
-        arrayEl.append(str)
-        
-        UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(arrayEl, forKey: userKey.key)
-
-        navigationController?.popViewController(animated: true)
-    }
-    
     // get string with hours, minutes and seconds
     func GetTimeString(date: Date) -> String {
         let calendar = Calendar.current
@@ -133,12 +88,12 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         
         //setup comments
         taskInfo.comment.topAnchor.constraint(equalTo: self.taskInfo.nameOfTask.bottomAnchor).isActive = true
-        taskInfo.comment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
-        taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
-        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/5).isActive = true
+        taskInfo.comment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
+        taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -30).isActive = true
+        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor).isActive = true
         
         //setup button - create task
-        taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
+        taskInfo.createButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30).isActive = true
         taskInfo.createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         taskInfo.createButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         taskInfo.createButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -165,10 +120,60 @@ class CreateViewController: UIViewController, UITextFieldDelegate, UITextViewDel
             return false
         }
         
-        return changedText.count <= 500
+        return true
     }
     func textViewShouldReturn(textView: UITextView!) -> Bool {
         self.view.endEditing(true);
         return true;
+    }
+//    create data in core data 
+    @objc func createData() {
+        let date = Date()
+        let time = GetTimeString(date: date)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let currentDateString: String = dateFormatter.string(from: date)
+        
+        let arrayCom = taskInfo.comment.text! as NSString
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return;
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext;
+        guard let taskEntity = NSEntityDescription.entity(forEntityName: "Task", in: managedContext) else { return; };
+        
+        let task = NSManagedObject(entity: taskEntity, insertInto: managedContext);
+        task.setValue(taskInfo.nameOfTask.text!, forKeyPath: "name");
+        task.setValue(arrayCom as String, forKey: "comments");
+        task.setValue(currentDateString as String, forKey: "current_date");
+        task.setValue(retrieveData() - 1, forKey: "id");
+        task.setValue("0", forKey: "status");
+        task.setValue("\(time)", forKey: "time");
+        
+        do {
+            try managedContext.save();
+            navigationController?.popViewController(animated: true)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)");
+        }
+    }
+    
+    func retrieveData() -> Int {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return 0}
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+    
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            return result.count;
+        } catch {
+            
+            print("Failed")
+        }
+        return 0;
     }
 }

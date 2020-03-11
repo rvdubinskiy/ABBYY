@@ -7,53 +7,128 @@
 //
 
 import UIKit
+import CoreData
+
 
 class InformationViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     private var notes: Note?
+    var textViewScroll = UIScrollView();
+    
     var flag: Bool = false
     var taskInfo = TaskInfo()
-    var userKey = UserKey()
     var indexOfCurrentElement: Int = 0
+    let statuses = ["new",
+                    "in the process",
+                    "done"]
+    var selectedStatus: String?
     
+    override func viewWillDisappear(_ animated: Bool) {
+        changeDates();
+        super.viewWillDisappear(animated)
+    }
     
+    override func viewDidLoad() {
+        super.viewDidLoad();
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
     convenience init(with parameters: Note, index: String) {
         self.init()
         
         indexOfCurrentElement = Int(index)!
         self.notes = parameters
+        
+        taskInfo.nameOfTask.delegate = self
+        taskInfo.comment.delegate = self
     
-        
-        
+        setupCreateView()
         setupNavigationItems()
         setupdefaultSettings()
-        setupDates()
-        setupCreateView()
         createStatusPicker()
         createToolBar()
     }
     
+    // MARK: - Set up default settings
+    
     func setupNavigationItems() {
         title = "Information"
-        
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.prefersLargeTitles = true
         self.view.backgroundColor = UIColor.white
-        let editButton = UIBarButtonItem.init(title: "Edit", style: .plain, target: self, action: #selector(beginEditing))
         
-        navigationItem.rightBarButtonItems = [editButton]
-        self.toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-                             UIBarButtonItem.init(title: "by Roman", style: .plain, target: self, action: nil),
-                             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)]
+        
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont.init(name: "Quicksand-Regular", size: 20)!]
+        
+        let statusButton = UIBarButtonItem.init(title: "Status", style: .plain, target: self, action: #selector(finishTask))
+        statusButton.tintColor = UIColor.black
+        let editButton = UIBarButtonItem.init(title: "Edit", style: .plain, target: self, action: #selector(beginEditing))
+        editButton.tintColor = UIColor.black
+        
+        navigationItem.rightBarButtonItems = [editButton, statusButton]
 
     }
-    
     func setupdefaultSettings() {
         taskInfo.nameOfTask.textColor = UIColor.gray
         taskInfo.comment.textColor = UIColor.gray
         taskInfo.createButton.isHidden = true
         taskInfo.comment.isEditable = false
-        
-        taskInfo.nameOfTask.delegate = self
-        taskInfo.comment.delegate = self
     }
+    
+    // set up all dated
+    func setupDates() {
+        taskInfo.nameOfTask.text = notes?.nameOfTask
+        taskInfo.comment.text = notes?.comments
+        taskInfo.statusFiels.text = "Status: " + notes!.status
+    }
+    
+    func setupCreateView() {
+        setupDates()
+        
+        textViewScroll.translatesAutoresizingMaskIntoConstraints = false;
+        textViewScroll.backgroundColor = UIColor.white
+        taskInfo.comment.text = notes?.comments;
+        textViewScroll.contentSize.height = taskInfo.comment.contentSize.height;
+        
+        self.view.addSubview(textViewScroll)
+        
+        textViewScroll.addSubview(taskInfo.nameOfTask)
+        textViewScroll.addSubview(taskInfo.comment)
+        textViewScroll.addSubview(taskInfo.createButton)
+        
+        textViewScroll.addSubview(taskInfo.statusFiels)
+        
+        setupConstraints()
+    }
+    
+    func setupConstraints() {
+        textViewScroll.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true;
+        textViewScroll.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true;
+        textViewScroll.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true;
+        textViewScroll.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true;
+
+        
+        taskInfo.nameOfTask.leftAnchor.constraint(equalTo: self.textViewScroll.leftAnchor, constant: 22).isActive = true
+        taskInfo.nameOfTask.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        taskInfo.nameOfTask.widthAnchor.constraint(equalTo: self.textViewScroll.widthAnchor).isActive = true
+        
+        //setup comments
+
+        taskInfo.comment.topAnchor.constraint(equalTo: self.taskInfo.nameOfTask.bottomAnchor).isActive = true
+        taskInfo.comment.leftAnchor.constraint(equalTo: self.textViewScroll.leftAnchor, constant: 15).isActive = true
+        taskInfo.comment.widthAnchor.constraint(equalTo: self.textViewScroll.widthAnchor, constant: -30).isActive = true
+        taskInfo.comment.heightAnchor.constraint(equalToConstant: taskInfo.comment.contentSize.height).isActive = true
+        
+        
+        // setup status button
+        taskInfo.statusFiels.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+        taskInfo.statusFiels.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        taskInfo.statusFiels.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        taskInfo.statusFiels.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+    }
+    
+//    MARK: - Actions with data
     
     // button "Done" which changed status after click on it
     @objc func finishTask() {
@@ -61,10 +136,7 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         let alertController = UIAlertController(title: "Attention", message: "Are you really want to finish completing task?", preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Ok", style: .default) { (UIAlertAction) in
-            var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: self.userKey.key) as? [[String]]
-            
-            index![self.indexOfCurrentElement][4] = "2"
-            UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: self.userKey.key)
+            self.updateData(index: self.indexOfCurrentElement, value: "2");
             self.navigationController?.popToRootViewController(animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
@@ -78,9 +150,6 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // Present the controller
         self.present(alertController, animated: true, completion: nil)
-        
-        
-        
 
     }
     
@@ -90,83 +159,28 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         taskInfo.comment.textColor = UIColor.black
         taskInfo.comment.isEditable = true
         flag = true
-        
-        buttonSettings()
     }
     
-    // save button settings
-    func buttonSettings() {
-        let button = taskInfo.createButton
-        button.isHidden = false
-        button.backgroundColor = UIColor.gray
-        button.setTitle("Save", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(changeDates), for: .touchUpInside)
-        
-    }
     
     // save all dates after editing
-    @objc func changeDates() {
+    func changeDates() {
     
-        var index = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: userKey.key) as? [[String]]
-        index![indexOfCurrentElement][1] = taskInfo.nameOfTask.text ?? "Default"
-        index![indexOfCurrentElement][2] = (taskInfo.comment.text! as NSString) as String
-        
+        updateDataAfterEditing(index: self.indexOfCurrentElement, name: taskInfo.nameOfTask.text ?? "Default", comment: ((taskInfo.comment.text! as NSString) as String?)!)
+        taskInfo.statusFiels.font = UIFont.init(name: "Quicksand-Regular", size: 17)
         if taskInfo.statusFiels.text == "Status: new" {
-            index![indexOfCurrentElement][4] = "0"
+            updateData(index: indexOfCurrentElement, value: "0");
         } else if taskInfo.statusFiels.text == "Status: in the process" {
-            index![indexOfCurrentElement][4] = "1"
+            updateData(index: indexOfCurrentElement, value: "1");
         } else if taskInfo.statusFiels.text == "Status: done" {
-            index![indexOfCurrentElement][4] = "2"
+            updateData(index: indexOfCurrentElement, value: "2");
         } else {
-            index![indexOfCurrentElement][4] = "0"
+            updateData(index: indexOfCurrentElement, value: "0");
         }
         
-        UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.set(index, forKey: userKey.key)
         navigationController?.popToRootViewController(animated: true)
     }
     
-    // set up all dated
-    func setupDates() {
-        taskInfo.nameOfTask.text = notes?.nameOfTask
-        taskInfo.comment.text = notes?.comments
-    }
-    
-    func setupCreateView() {
-        self.view.addSubview(taskInfo.nameOfTask)
-        self.view.addSubview(taskInfo.comment)
-        self.view.addSubview(taskInfo.createButton)
-        self.view.addSubview(taskInfo.statusFiels)
-        taskInfo.nameOfTask.delegate = self
-        
-        setupConstraints()
-    }
-    
-    func setupConstraints() {
-        taskInfo.nameOfTask.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
-        taskInfo.nameOfTask.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        taskInfo.nameOfTask.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        taskInfo.nameOfTask.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        
-        //setup comments
-        taskInfo.comment.topAnchor.constraint(equalTo: self.taskInfo.nameOfTask.bottomAnchor).isActive = true
-        taskInfo.comment.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 22).isActive = true
-        taskInfo.comment.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
-        taskInfo.comment.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 2/5).isActive = true
-        
-        
-        // setup status button
-        taskInfo.statusFiels.topAnchor.constraint(equalTo: self.taskInfo.comment.bottomAnchor).isActive = true
-        taskInfo.statusFiels.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        taskInfo.statusFiels.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        taskInfo.statusFiels.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        //setup button - create task
-        taskInfo.createButton.topAnchor.constraint(equalTo: self.taskInfo.statusFiels.bottomAnchor, constant: 20).isActive = true
-        taskInfo.createButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        taskInfo.createButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        taskInfo.createButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    }
+//    MARK: - Text field delegates
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if flag {
@@ -192,32 +206,30 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     // restrictions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let currentText = taskInfo.comment.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        
-        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
-        
         if text == "\n" {
             textView.resignFirstResponder()
             return false
         }
-        
-        return changedText.count <= 500
+
+        return true
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: self.view.frame.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        textView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                textViewScroll.contentSize.height = estimatedSize.height + self.view.frame.height
+                constraint.constant = textViewScroll.contentSize.height
+            }
+        }
     }
     func textViewShouldReturn(textView: UITextView!) -> Bool {
-        self.view.endEditing(true);
+        textView.endEditing(true);
         return true;
     }
     
-    ///////
-    let statuses = ["new",
-                    "in the process",
-                    "done"]
-    
-    var selectedStatus: String?
-    
-    func createStatusPicker() {
-        var statusPicker = UIPickerView()
+    @objc func createStatusPicker() {
+        let statusPicker = UIPickerView()
         statusPicker.delegate = self
         
         taskInfo.statusFiels.inputView = statusPicker
@@ -227,22 +239,109 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         taskInfo.statusFiels.endEditing(true)
     }
     
+//    MARK: - Create Tool Bar
+    
     func createToolBar() {
-        var toolBar = UIToolbar()
+        let toolBar = UIToolbar()
         toolBar.sizeToFit()
-        
         let doneButton = UIBarButtonItem.init(title: "Done", style: .plain, target: self, action: #selector(InformationViewController.dismissKeyboard))
+        doneButton.tintColor = UIColor.black
         toolBar.setItems([doneButton], animated: true)
         toolBar.isUserInteractionEnabled = true
-        
+
         taskInfo.statusFiels.inputAccessoryView = toolBar
-        buttonSettings()
-        
     }
     
+//MARK: - COREDATA requests
     
+    func updateData(index: Int, value: String){
+     
+         //As we know that container is set up in the AppDelegates so we need to refer that container.
+         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+         
+         //We need to create a context from this container
+         let managedContext = appDelegate.persistentContainer.viewContext
+         
+         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Task")
+         fetchRequest.predicate = NSPredicate(format: "id == %@", "\(index)")
+         do
+         {
+             let test = try managedContext.fetch(fetchRequest)
+    
+                 let objectUpdate = test[0] as! NSManagedObject
+                 objectUpdate.setValue(value, forKey: "status")
+                 do{
+                     try managedContext.save()
+                 }
+                 catch
+                 {
+                     print(error)
+                 }
+             }
+         catch
+         {
+             print(error)
+         }
+    
+     }
+    
+    func updateDataAfterEditing(index: Int, name: String, comment: String){
+     
+         //As we know that container is set up in the AppDelegates so we need to refer that container.
+         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+         
+         //We need to create a context from this container
+         let managedContext = appDelegate.persistentContainer.viewContext
+         
+         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "Task")
+         fetchRequest.predicate = NSPredicate(format: "id == %@", "\(index)")
+         do
+         {
+             let test = try managedContext.fetch(fetchRequest)
+    
+                guard let objectUpdate = test[0] as? NSManagedObject else { return}
+                objectUpdate.setValue(comment, forKey: "comments");
+                objectUpdate.setValue(name, forKey: "name");
+                 do{
+                     try managedContext.save()
+                 }
+                 catch
+                 {
+                     print(error)
+                 }
+             }
+         catch
+         {
+             print(error)
+         }
+    
+     }
+        
     
 }
+//MARK: - Keyboard
+
+extension InformationViewController {
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            taskInfo.comment.contentInset = .zero
+        } else {
+            taskInfo.comment.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 200, right: 0)
+        }
+
+        taskInfo.comment.scrollIndicatorInsets = taskInfo.comment.contentInset
+
+        let selectedRange = taskInfo.comment.selectedRange
+        taskInfo.comment.scrollRangeToVisible(selectedRange)
+    }
+}
+
+// MARK: - Status picker
 
 extension InformationViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -262,6 +361,7 @@ extension InformationViewController: UIPickerViewDelegate, UIPickerViewDataSourc
         selectedStatus = statuses[row]
         
         taskInfo.statusFiels.text = "Status: \(selectedStatus!)"
+        taskInfo.statusFiels.font = UIFont.init(name: "Quicksand-Regular", size: 17)
     }
     
 }

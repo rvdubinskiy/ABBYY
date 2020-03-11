@@ -20,19 +20,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewController = ViewController()
         
         window?.makeKeyAndVisible()
+        let attrs = [
+            NSAttributedString.Key.font: UIFont.init(name: "Quicksand-Regular", size: 24)!
+        ]
+
+        UINavigationBar.appearance().titleTextAttributes = attrs
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         return true
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        if url.scheme == "abbyy"
+
+        if url.scheme == "kek"
         {
-            let dates = UserDefaults.init(suiteName: "group.com.dubinskiy.abbyy")?.object(forKey: "widjetDate") as! [String]
-            if(dates.count != 0) {
-                let note = Note(nameOfTask: dates[1], date: dates[2], status: dates[3], comments: dates[4], id: dates[0], currentDate: dates[5])
-                (self.window?.rootViewController as! UINavigationController).pushViewController(InformationViewController(with: note, index: dates[0] ), animated: true)
-            }
+            let taskID = Int(url.absoluteString.components(separatedBy:CharacterSet.decimalDigits.inverted).joined(separator: ""))!;
+            var dates = retrieveData()!
+            dates = dates.reversed()
+            
+            let note = Note(nameOfTask: dates[taskID].nameOfTask, date: dates[taskID].date, status: GetStatusFromInt(intStatus: dates[taskID].status), comments: dates[taskID].comments, id: dates[taskID].id, currentDate: dates[taskID].currentDate);
+            
+            (self.window?.rootViewController as! UINavigationController).pushViewController(InformationViewController(with: note, index: String(dates[taskID].id) ), animated: true)
         }
         return true
     }
@@ -70,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "ABBYY")
+        let container = NewPS(name: "ABBYY");
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -105,6 +113,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+//    MARK: - Core Data retrieveData
+    
+    func retrieveData() -> [Note]? {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil}
+        
+        let managedContext = self.persistentContainer.viewContext
+        
+    
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Task")
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            var notes = [Note]();
+            for data in result as! [NSManagedObject] {
+                let note = Note(nameOfTask: data.value(forKey: "name") as! String, date: data.value(forKey: "time") as! String, status: GetStatusFromInt(intStatus: data.value(forKey: "status") as! String), comments: data.value(forKey: "comments") as! String, id: data.value(forKey: "id") as! Int, currentDate: data.value(forKey: "current_date") as! String);
+                
+                notes.append(note);
+            }
+            return notes;
+        } catch {
+            print("Failed")
+        }
+        return nil;
+    }
+    
+    func GetStatusFromInt(intStatus: String) -> String {
+        
+        switch intStatus {
+        case "0":
+            return "new"
+        case "1":
+            return "in the process"
+        case "2":
+            return "done"
+        default:
+            return "\(intStatus)"
+        }
+    }
 }
 
