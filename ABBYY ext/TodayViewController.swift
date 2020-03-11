@@ -112,7 +112,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var tempString = String()
         var timeForCompare = String()
         
-        var dates = retrieveData();
+        let dates = retrieveData();
 
         // тут сортировка для отображения ближайшей задачи, у которой не стоит статус "done"
         for item in 0..<dates!.count {

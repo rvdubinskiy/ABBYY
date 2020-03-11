@@ -87,6 +87,9 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         textViewScroll.translatesAutoresizingMaskIntoConstraints = false;
         textViewScroll.backgroundColor = UIColor.white
+//        textViewScroll.frame = self.view.bounds;
+//        textViewScroll.autoresizingMask = .flexibleHeight;
+//        textViewScroll.bounces = true;
         taskInfo.comment.text = notes?.comments;
         textViewScroll.contentSize.height = taskInfo.comment.contentSize.height;
         
@@ -102,12 +105,12 @@ class InformationViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func setupConstraints() {
-        textViewScroll.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true;
+        textViewScroll.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true;
         textViewScroll.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true;
         textViewScroll.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true;
         textViewScroll.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true;
 
-        
+        taskInfo.nameOfTask.topAnchor.constraint(equalTo: self.textViewScroll.topAnchor).isActive = true;
         taskInfo.nameOfTask.leftAnchor.constraint(equalTo: self.textViewScroll.leftAnchor, constant: 22).isActive = true
         taskInfo.nameOfTask.heightAnchor.constraint(equalToConstant: 50).isActive = true
         taskInfo.nameOfTask.widthAnchor.constraint(equalTo: self.textViewScroll.widthAnchor).isActive = true

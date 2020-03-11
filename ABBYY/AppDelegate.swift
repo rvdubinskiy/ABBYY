@@ -29,9 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         return true
     }
-    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-
+        
         if url.scheme == "kek"
         {
             let taskID = Int(url.absoluteString.components(separatedBy:CharacterSet.decimalDigits.inverted).joined(separator: ""))!;

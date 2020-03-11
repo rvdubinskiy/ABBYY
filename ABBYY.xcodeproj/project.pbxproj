@@ -25,7 +25,6 @@
 		6F0ABF92229AC9DD006A9748 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0ABF91229AC9DD006A9748 /* CreateViewController.swift */; };
 		6F26B0E92413B3F800574572 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */; };
 		6F26B0EA2413B3F800574572 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */; };
-		6F26B0F6241426ED00574572 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F26B0F5241426ED00574572 /* NotificationService.swift */; };
 		6F5F815A22A1A57B00F1A197 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F5F815922A1A57B00F1A197 /* InformationViewController.swift */; };
 		6F7ADCE62417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */; };
 		6F7ADCE72417CE3D0074B6F9 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */; };
@@ -74,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4BAF53479D266BFF09E7703B /* Pods-ABBYY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABBYY.release.xcconfig"; path = "Target Support Files/Pods-ABBYY/Pods-ABBYY.release.xcconfig"; sourceTree = "<group>"; };
 		6F0865F32416680700D353F7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6F0865F724167B3400D353F7 /* NewPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPS.swift; sourceTree = "<group>"; };
 		6F0866092416844F00D353F7 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -90,8 +90,6 @@
 		6F0ABF91229AC9DD006A9748 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		6F26B0E72413B3F700574572 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		6F26B0F3241426ED00574572 /* WatchNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WatchNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F26B0F5241426ED00574572 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		6F26B0F7241426ED00574572 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F5F815922A1A57B00F1A197 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		6F7ADCE52417CE3C0074B6F9 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		6F7ADCEE2417DFC70074B6F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file; name = Base; path = "Base.lproj/Quicksand-M.ttf"; sourceTree = "<group>"; };
@@ -106,6 +104,7 @@
 		6F8809A622A6C58800B3E86E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F8809AE22A6C5CB00B3E86E /* ABBYY.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ABBYY.entitlements; sourceTree = "<group>"; };
 		6F8809AF22A6C60000B3E86E /* ABBYY ext.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ABBYY ext.entitlements"; sourceTree = "<group>"; };
+		CA2DD2D92D78E1B42DB146CF /* Pods-ABBYY.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABBYY.debug.xcconfig"; path = "Target Support Files/Pods-ABBYY/Pods-ABBYY.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,9 +144,9 @@
 				6F0ABF90229AC9AA006A9748 /* Controllers */,
 				6F0ABF762299625F006A9748 /* ABBYY */,
 				6F8809A022A6C58800B3E86E /* ABBYY ext */,
-				6F26B0F4241426ED00574572 /* WatchNotification */,
 				6F88099D22A6C58800B3E86E /* Frameworks */,
 				6F0ABF752299625F006A9748 /* Products */,
+				CEE5068F47821939D35323E6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -207,15 +206,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		6F26B0F4241426ED00574572 /* WatchNotification */ = {
-			isa = PBXGroup;
-			children = (
-				6F26B0F5241426ED00574572 /* NotificationService.swift */,
-				6F26B0F7241426ED00574572 /* Info.plist */,
-			);
-			path = WatchNotification;
-			sourceTree = "<group>";
-		};
 		6F88099722A67B6A00B3E86E /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +235,15 @@
 			path = "ABBYY ext";
 			sourceTree = "<group>";
 		};
+		CEE5068F47821939D35323E6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA2DD2D92D78E1B42DB146CF /* Pods-ABBYY.debug.xcconfig */,
+				4BAF53479D266BFF09E7703B /* Pods-ABBYY.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -252,6 +251,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F0ABF8922996260006A9748 /* Build configuration list for PBXNativeTarget "ABBYY" */;
 			buildPhases = (
+				18D4F414308E4825AABC1757 /* [CP] Check Pods Manifest.lock */,
 				6F0ABF702299625F006A9748 /* Sources */,
 				6F0ABF712299625F006A9748 /* Frameworks */,
 				6F0ABF722299625F006A9748 /* Resources */,
@@ -398,6 +398,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		18D4F414308E4825AABC1757 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ABBYY-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6F0ABF702299625F006A9748 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -419,7 +444,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F26B0F6241426ED00574572 /* NotificationService.swift in Sources */,
 				6F0865FE24167D1C00D353F7 /* ABBYY.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -599,6 +623,7 @@
 		};
 		6F0ABF8A22996260006A9748 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA2DD2D92D78E1B42DB146CF /* Pods-ABBYY.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -620,6 +645,7 @@
 		};
 		6F0ABF8B22996260006A9748 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BAF53479D266BFF09E7703B /* Pods-ABBYY.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
